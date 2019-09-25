@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import com.jbp.couponproject.models.Coupon;
 
-public interface CouponRepository extends JpaRepository<Coupon, Integer>{
+public interface CouponRepository extends JpaRepository<Coupon, Integer> {
+	
+	Coupon findCouponById(long id);
 
 }

@@ -1,22 +1,32 @@
 package com.jbp.couponproject.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class User {
+public class UserModel {
 
 	@Id
 	@NotNull
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@NotNull
-	private String name;
+	@Column
+	private String username;
+	@Column
 	@NotNull
+	@JsonIgnore
 	private String password;
+
+	public UserModel() {
+
+	}
 
 	public long getId() {
 		return id;
@@ -26,12 +36,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String name) {
+		this.username = name;
 	}
 
 	public String getPassword() {
@@ -44,17 +54,9 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + "]";
+		return "User [id=" + id + ", name=" + username + ", password=" + password + "]";
 	}
 
-	public User() {
 
-	}
-
-	public User(@NotNull long id, @NotNull String name, @NotNull String password) {
-		this.id = id;
-		this.name = name;
-		this.password = password;
-	}
 
 }

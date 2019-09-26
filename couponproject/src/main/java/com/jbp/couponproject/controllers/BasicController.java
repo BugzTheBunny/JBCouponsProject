@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jbp.couponproject.models.Coupon;
 import com.jbp.couponproject.repos.CouponRepository;
-import com.jbp.couponproject.repos.UserRepository;
+import com.jbp.couponproject.repos.UserModelRepository;
 
 @CrossOrigin
 @RestController
@@ -16,7 +16,7 @@ import com.jbp.couponproject.repos.UserRepository;
 public class BasicController {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserModelRepository userRepository;
 	@Autowired
 	private CouponRepository couponRepository;
 
@@ -25,7 +25,5 @@ public class BasicController {
 		return couponRepository.findCouponById(1);
 
 	}
-	
-	
 
 }

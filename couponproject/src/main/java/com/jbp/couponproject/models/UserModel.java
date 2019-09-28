@@ -12,6 +12,10 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jbp.couponproject.enums.Roles;
 
+/*
+ * @This Model that is sent to the DB. 
+ */
+
 @Entity
 public class UserModel {
 

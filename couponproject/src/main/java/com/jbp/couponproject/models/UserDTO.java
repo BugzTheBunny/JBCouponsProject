@@ -1,7 +1,9 @@
 package com.jbp.couponproject.models;
 
 import com.jbp.couponproject.enums.Roles;
-
+/*
+ * This class is used to connect the UserModel with the Jwt controller.
+ */
 public class UserDTO {
 	
 	private String username;

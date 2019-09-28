@@ -1,7 +1,9 @@
 package com.jbp.couponproject.models;
 
 import java.io.Serializable;
-
+/*
+ * @This class is what is getting sent to the Client after the login, it includes the role and the token
+ */
 public class JwtResponse implements Serializable {
 
 	private static final long serialVersionUID = -8091879091924046844L;

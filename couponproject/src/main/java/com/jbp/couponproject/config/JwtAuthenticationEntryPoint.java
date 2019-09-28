@@ -18,6 +18,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException {
 
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Incorrect");
+		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sorry, you can't view this.");
 	}
 }

@@ -2,12 +2,15 @@ package com.jbp.couponproject.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jbp.couponproject.enums.Roles;
 
 @Entity
 public class UserModel {
@@ -23,6 +26,9 @@ public class UserModel {
 	@NotNull
 	@JsonIgnore
 	private String password;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Roles role;
 
 	public UserModel() {
 
@@ -52,11 +58,19 @@ public class UserModel {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + username + ", password=" + password + "]";
+	public Roles getRoles() {
+		return role;
 	}
 
+	public void setRoles(Roles roles) {
+		this.role = roles;
+	}
 
+	public UserModel(@NotNull long id, @NotNull String username, @NotNull String password, @NotNull Roles roles) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.role = roles;
+	}
 
 }

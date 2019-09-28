@@ -16,6 +16,7 @@ public class Coupon {
 	private String title;
 	@NotNull
 	private double price;
+	
 	public long getId() {
 		return id;
 	}

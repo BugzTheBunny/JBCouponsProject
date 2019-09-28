@@ -7,5 +7,7 @@ import com.jbp.couponproject.models.UserModel;
 
 @Repository
 public interface UserModelRepository extends JpaRepository<UserModel, Integer> {
+	UserModel findByUsername(String username);
 
+	boolean existsByUsername(String username);
 }

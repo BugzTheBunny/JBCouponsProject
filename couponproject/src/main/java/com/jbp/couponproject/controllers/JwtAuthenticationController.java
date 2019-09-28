@@ -1,6 +1,9 @@
 package com.jbp.couponproject.controllers;
 
+import javax.management.relation.Role;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -8,16 +11,22 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jbp.couponproject.config.JwtTokenUtil;
+import com.jbp.couponproject.enums.Roles;
 import com.jbp.couponproject.models.JwtRequest;
 import com.jbp.couponproject.models.JwtResponse;
 import com.jbp.couponproject.models.UserDTO;
+import com.jbp.couponproject.repos.UserModelRepository;
 import com.jbp.couponproject.service.JwtUserDetailsService;
+
+import javassist.expr.NewArray;
+import springfox.documentation.service.ResponseMessage;
 
 @RestController
 @CrossOrigin
@@ -28,6 +37,9 @@ public class JwtAuthenticationController {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	UserModelRepository userModelRepository;
 
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
@@ -40,12 +52,14 @@ public class JwtAuthenticationController {
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
+		final String role = userModelRepository.findByUsername(authenticationRequest.getUsername()).getRoles().toString();
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		return ResponseEntity.ok(new JwtResponse(token,role));
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@PostMapping(value = "/register")
 	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+		System.out.println("New account has been registerd" + user.toString());
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 

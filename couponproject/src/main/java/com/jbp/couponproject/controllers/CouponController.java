@@ -1,5 +1,7 @@
 package com.jbp.couponproject.controllers;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jbp.couponproject.enums.CouponType;
 import com.jbp.couponproject.models.Coupon;
 import com.jbp.couponproject.repos.CouponRepository;
 import com.jbp.couponproject.repos.UserModelRepository;
@@ -41,15 +44,27 @@ public class CouponController {
 	}
 
 	@Transactional
-	@DeleteMapping(path = { "/del/{id}" })
+	@DeleteMapping(path = { "/del/{id}" } )
 	public void delete(@PathVariable("id") long id) {
 		if (couponRepository.findById(id) != null) {
 			couponRepository.deleteById(id);
 		}
 	}
 
-	@PostMapping
+	@PostMapping(consumes = { "application/json" })
 	public void create(@RequestBody Coupon coupon) {
+		System.out.println("DATE: " + coupon.getEndDate());
+		if(coupon != null) {
+			Coupon newCoupon = new Coupon();
+			newCoupon.setId(coupon.getId());
+			newCoupon.setTitle(coupon.getTitle());
+			newCoupon.setDescription(coupon.getDescription());
+			newCoupon.setAmount(coupon.getAmount());
+			newCoupon.setStartDate(coupon.getStartDate());
+			newCoupon.setEndDate(coupon.getEndDate());
+			newCoupon.setPrice(coupon.getPrice());
+			newCoupon.setType(CouponType.valueOf(coupon.getType().toString()));
+		}
 		couponRepository.save(coupon);
 	}
 

@@ -34,6 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
 	}
+	
+	/*
+	 * Password encoder, encrypts the password of the user.
+	 */
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -46,18 +50,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	///////////
 
-	///////////
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.
-		csrf().disable().authorizeRequests()
+		httpSecurity
+		.csrf().disable()
+		.authorizeRequests()
 		.antMatchers("/authenticate", "/register").permitAll()
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		.antMatchers("coupon/**").permitAll().anyRequest()
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.antMatchers("coupon/**").permitAll()
+		.antMatchers("admin/**").permitAll()
+		.anyRequest()
+		.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}

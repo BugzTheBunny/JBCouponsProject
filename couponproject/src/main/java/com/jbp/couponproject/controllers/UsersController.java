@@ -14,12 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jbp.couponproject.enums.Roles;
-import com.jbp.couponproject.models.Coupon;
 import com.jbp.couponproject.models.UserModel;
 import com.jbp.couponproject.repos.CouponRepository;
 import com.jbp.couponproject.repos.UserModelRepository;
-
-import javassist.expr.NewArray;
 
 @CrossOrigin
 @RestController

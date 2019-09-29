@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 		.antMatchers("coupon/**").permitAll()
 		.antMatchers("admin/**").permitAll()
+		.antMatchers("user/**").permitAll()
 		.anyRequest()
 		.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

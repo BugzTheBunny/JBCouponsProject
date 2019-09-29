@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.jbp.couponproject.enums.Roles;
 import com.jbp.couponproject.models.Coupon;
 import com.jbp.couponproject.models.UserModel;
 
@@ -17,7 +18,9 @@ public interface UserModelRepository extends JpaRepository<UserModel, Integer> {
 
 	List<Coupon> findAllCouponsByUsername(String username);
 
-	List<UserModel> findByRole(String string);
+	List<UserModel> findByRole(Roles role);
 
 	UserModel findById(long id);
+
+	void deleteById(long id);
 }

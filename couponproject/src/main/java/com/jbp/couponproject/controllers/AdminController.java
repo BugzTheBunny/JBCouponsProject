@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jbp.couponproject.enums.Roles;
 import com.jbp.couponproject.models.UserModel;
 import com.jbp.couponproject.repos.CouponRepository;
 import com.jbp.couponproject.repos.UserModelRepository;
@@ -28,12 +29,11 @@ public class AdminController {
 	@DeleteMapping("/deleteUser")
 	public void removeUser(Authentication authentication, @RequestBody UserModel userModel) {
 		System.out.println("Delete was called");
-		// Will work only for Admins or Companies
-		if (userRepository.findByUsername(authentication.getName()).getRoles().toString().equals("ADMIN")) {
-			if (userModel != null) {
-				userRepository.delete(userModel);
-			}
-
+		if (userRepository.findByUsername(authentication.getName()).getRoles() == Roles.MANAGER) {
+				userRepository.deleteById(userModel.getId());
+				System.out.println("Delete Worked!!!");
+		} else {
+			System.err.println("Not an admin");
 		}
 
 	}

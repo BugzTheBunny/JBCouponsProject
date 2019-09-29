@@ -42,7 +42,6 @@ public class Coupon {
 	 */
 
 	@Id
-	@GeneratedValue
 	@Column
 	private long id;
 	@NotNull

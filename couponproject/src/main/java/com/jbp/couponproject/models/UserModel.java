@@ -84,6 +84,20 @@ public class UserModel {
 		this.coupons = coupons;
 	}
 
+	public void createCoupon(Coupon coupon) {
+		if (this.coupons.contains(coupon)) {
+			System.out.println("Already Exists");
+		} else {
+			this.coupons.add(coupon);
+		}
+	}
+
+	public void removeCoupon(Coupon coupon) {
+		if (this.coupons.contains(coupon)) {
+			this.coupons.remove(coupon);
+		}
+	}
+
 	public UserModel(@NotNull long id, @NotNull String username, @NotNull String password, @NotNull Roles roles) {
 		this.id = id;
 		this.username = username;

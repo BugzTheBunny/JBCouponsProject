@@ -25,6 +25,16 @@ import com.jbp.couponproject.service.JwtUserDetailsService;
 @CrossOrigin
 public class JwtAuthenticationController {
 
+	private String LOGGED_USER;
+
+	public String getLOGGED_USER() {
+		return LOGGED_USER;
+	}
+
+	private void setLOGGED_USER(String lOGGED_USER) {
+		LOGGED_USER = lOGGED_USER;
+	}
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -36,7 +46,7 @@ public class JwtAuthenticationController {
 
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
-	
+
 	/*
 	 * This method is used for the Login, checks the credentials and sets them.
 	 */
@@ -48,15 +58,16 @@ public class JwtAuthenticationController {
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
 		/*
-		 *  sets the user Token + the Role.
+		 * sets the user Token + the Role.
 		 */
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		final String role = userModelRepository.findByUsername(authenticationRequest.getUsername()).getRoles()
 				.toString();
 
 		/*
-		 *  Returns the Token + the Role of the user.
+		 * Returns the Token + the Role of the user.
 		 */
+		setLOGGED_USER(authenticationRequest.getUsername());
 		return ResponseEntity.ok(new JwtResponse(token, role));
 	}
 

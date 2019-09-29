@@ -1,6 +1,5 @@
 package com.jbp.couponproject.utils;
 
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,17 +19,9 @@ import com.jbp.couponproject.repos.CouponRepository;
 public class DailyTast {
 
 	/*
-	 * This is the daily task, it should remove outdated coupons.
-	 * 
-	 * @if the coupon is expired(by end_date): will change the status to EXPIRED
-	 * 
-	 * @if the status is EXPIRED: will check the date, if it is outdated - will
-	 * remain EXPIRED if the date is fixed, and its not outdated, it will change it
-	 * to ONSALE
-	 * 
-	 * @if the status is REMOVED: will ignore the coupon.
-	 * 
-	 * @Also counting the amount of updated coupons every run
+	 * @The daily task, removes the outdated components, also shows how much were
+	 * removed every run.
+	 *
 	 */
 
 	@Autowired
@@ -48,7 +39,7 @@ public class DailyTast {
 			couponRepository.delete(coupon);
 		}
 		/*
-		 * Info for the console
+		 * Info of the run for the console
 		 */
 		System.out.println("------- Number of updated coupons today: " + amount);
 		System.out.println("Outdated Coupons: \n" + outdated);

@@ -16,4 +16,6 @@ public interface UserModelRepository extends JpaRepository<UserModel, Integer> {
 	boolean existsByUsername(String username);
 
 	List<Coupon> findAllCouponsByUsername(String username);
+
+	List<UserModel> findByRole(String string);
 }

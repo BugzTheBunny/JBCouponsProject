@@ -26,6 +26,8 @@ public class UsersController {
 
 	/*
 	 * @ Returning users by roles
+	 * 
+	 * @need to add some if Statments
 	 */
 
 	@GetMapping("/list/customers")
@@ -36,7 +38,7 @@ public class UsersController {
 	}
 
 	@GetMapping("/list/managers")
-	public List<UserModel> managersList(Authentication authentication) {
+	public List<UserModel> managersList() {
 		List<UserModel> users = userRepository.findByRole(Roles.MANAGER.toString());
 		return users;
 

@@ -51,8 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	///////////
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/authenticate", "/register").permitAll()
-				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers("coupon/**").permitAll().anyRequest()
+		httpSecurity.
+		csrf().disable().authorizeRequests()
+		.antMatchers("/authenticate", "/register").permitAll()
+		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+		.antMatchers("coupon/**").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

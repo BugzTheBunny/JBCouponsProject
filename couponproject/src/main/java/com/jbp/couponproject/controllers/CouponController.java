@@ -74,7 +74,8 @@ public class CouponController {
 	/*
 	 * @ creates a coupon for the current logged user (Only for Admins / Managers)
 	 */
-	@PostMapping(consumes = { "application/json" })
+	
+	@PostMapping(path = "", consumes = { "application/json" })
 	public void create(Authentication authentication, @RequestBody Coupon coupon) {
 		System.out.println("Create was called");
 		if (coupon != null) {
@@ -86,10 +87,10 @@ public class CouponController {
 		}
 	}
 
-	@PostMapping(path = "/buy")
+	@PostMapping(path = "/buy", consumes = { "application/json" })
 	public void buy(Authentication authentication, @RequestBody Coupon coupon) {
-		System.out.println("Purchuse was called");
-		if (userRepository.findByUsername(authentication.getName()).getRoles().equals("CUSTOMER")
+		System.out.println("Purchuse was called by " + authentication.getName() + userRepository.findByUsername(authentication.getName()).getRoles().toString());
+		if (userRepository.findByUsername(authentication.getName()).getRoles().toString().equals("CUSTOMER")
 				&& coupon.getAmount() >= 1) {
 			UserModel temp = userRepository.findByUsername(authentication.getName());
 			Coupon tempc = coupon;

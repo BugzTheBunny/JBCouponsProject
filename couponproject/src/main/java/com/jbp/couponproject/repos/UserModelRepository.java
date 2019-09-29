@@ -18,4 +18,6 @@ public interface UserModelRepository extends JpaRepository<UserModel, Integer> {
 	List<Coupon> findAllCouponsByUsername(String username);
 
 	List<UserModel> findByRole(String string);
+
+	UserModel findById(long id);
 }

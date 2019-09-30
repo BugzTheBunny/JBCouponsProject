@@ -121,9 +121,6 @@ public class Coupon {
 	public void setType(CouponType type) {
 		this.type = type;
 	}
-	
-	
-
 
 	public Date getStartDate() {
 		return startDate;

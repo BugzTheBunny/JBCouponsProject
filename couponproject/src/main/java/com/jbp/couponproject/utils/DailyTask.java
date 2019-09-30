@@ -31,7 +31,6 @@ public class DailyTask {
 	void update() {
 		long amount = 0;
 		LocalDate time = LocalDate.now();
-
 		List<Coupon> outdated = couponRepository.findAllByEndDateBefore(Date.valueOf(LocalDate.now()));
 
 		for (Coupon coupon : outdated) {

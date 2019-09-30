@@ -16,7 +16,7 @@ import com.jbp.couponproject.repos.CouponRepository;
 @Configuration
 @EnableScheduling
 @ConditionalOnProperty(name = "scheduling.enabled", matchIfMissing = true)
-public class DailyTast {
+public class DailyTask {
 
 	/*
 	 * @The daily task, removes the outdated components, also shows how much were
@@ -27,7 +27,7 @@ public class DailyTast {
 	@Autowired
 	private CouponRepository couponRepository;
 
-	@Scheduled(initialDelay = 5000L, fixedDelay = 5000L)
+	@Scheduled(initialDelay = 5000L, fixedDelay = 30000L)
 	void update() {
 		long amount = 0;
 		LocalDate time = LocalDate.now();

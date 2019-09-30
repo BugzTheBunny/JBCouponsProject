@@ -18,13 +18,13 @@ import com.jbp.couponproject.repos.UserModelRepository;
 public class JwtUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserModelRepository userRepo;
+	private UserModelRepository userRepository;
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserModel user = userRepo.findByUsername(username);
+		UserModel user = userRepository.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
@@ -35,12 +35,13 @@ public class JwtUserDetailsService implements UserDetailsService {
 	public UserModel save(UserDTO user) {
 		UserModel newUser = new UserModel();
 		newUser.setUsername(user.getUsername());
+		newUser.setName(user.getName());
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 		if(user.getRole().toString().equals("MANAGER")) {
 			newUser.setRoles(Roles.MANAGER);
 		}else {
 			newUser.setRoles(Roles.CUSTOMER);
 		}
-		return userRepo.save(newUser);
+		return userRepository.save(newUser);
 	}
 }

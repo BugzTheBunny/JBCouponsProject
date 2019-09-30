@@ -52,25 +52,21 @@ public class JwtAuthenticationController {
 	 */
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
 		/*
 		 * sets the user Token + the Role.
 		 */
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		final String role = userModelRepository.findByUsername(authenticationRequest.getUsername()).getRoles()
 				.toString();
-
 		/*
 		 * Returns the Token + the Role of the user.
 		 */
 		setLOGGED_USER(authenticationRequest.getUsername());
+		System.out.println("WORKZ");
 		return ResponseEntity.ok(new JwtResponse(token, role));
 	}
-
 	/*
 	 * The post request for the registration, takes a user infetrface that includes
 	 * Username, Password and the Role.

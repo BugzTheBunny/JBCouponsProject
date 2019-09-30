@@ -28,6 +28,9 @@ public class UserModel {
 	private long id;
 	@NotNull
 	@Column
+	private String name;
+	@NotNull
+	@Column
 	private String username;
 	@Column
 	@NotNull
@@ -58,6 +61,14 @@ public class UserModel {
 
 	public void setUsername(String name) {
 		this.username = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {
@@ -98,9 +109,11 @@ public class UserModel {
 		}
 	}
 
-	public UserModel(@NotNull long id, @NotNull String username, @NotNull String password, @NotNull Roles roles) {
+	public UserModel(@NotNull long id, @NotNull String username, @NotNull String name, @NotNull String password,
+			@NotNull Roles roles) {
 		this.id = id;
 		this.username = username;
+		this.name = name;
 		this.password = password;
 		this.role = roles;
 

@@ -17,6 +17,7 @@ import com.jbp.couponproject.enums.Roles;
 import com.jbp.couponproject.models.Coupon;
 import com.jbp.couponproject.models.UserModel;
 import com.jbp.couponproject.repos.CouponRepository;
+import com.jbp.couponproject.repos.ProfitRepo;
 import com.jbp.couponproject.repos.UserModelRepository;
 
 @CrossOrigin
@@ -28,6 +29,8 @@ public class AdminController {
 	private UserModelRepository userRepository;
 	@Autowired
 	private CouponRepository couponRepository;
+	@Autowired
+	private ProfitRepo profitRepo;
 
 	/*
 	 * 	User removing:
@@ -53,7 +56,4 @@ public class AdminController {
 		}
 	}
 
-	public void removeCoupon(Authentication authentication, @RequestBody UserModel userModel) {
-
-	}
 }

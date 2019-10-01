@@ -6,15 +6,19 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.aspectj.weaver.ast.Var;
+import org.hibernate.WrongClassException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jbp.couponproject.enums.Roles;
@@ -32,6 +36,8 @@ public class UsersController {
 	private UserModelRepository userRepository;
 	@Autowired
 	private CouponRepository couponRepository;
+	@Autowired
+	private PasswordEncoder bcryptEncoder;
 
 	/*
 	 * @ Returning users by roles
@@ -39,9 +45,17 @@ public class UsersController {
 	 * @need to add some if Statments
 	 */
 
-	@GetMapping(path = "/{id}")
-	public UserModel getUser(@PathVariable("id") long id) {
-		return userRepository.findById(1);
+	@GetMapping("/{username}")
+	public UserModel getUser(@PathVariable("username") String username) {
+		return userRepository.findByUsername(username);
+	}
+
+	/*
+	 * @Returns the current login user information.
+	 */
+	@GetMapping("/info")
+	public UserModel myInfo(Authentication authentication) {
+		return userRepository.findByUsername(authentication.getName());
 	}
 
 	@GetMapping("/list/customers")
@@ -76,6 +90,22 @@ public class UsersController {
 			System.out.println("Not allowed to change other user info");
 		}
 
+	}
+	/*
+	 * A Method for changing a user password
+	 * 
+	 * 
+	 * @ Will compare the users by username.
+	 * 
+	 * if both are equal, will change the password and encrypt it.
+	 */
+
+	@PutMapping(path = { "password" })
+	public void updatePassword(Authentication authentication,@RequestBody String password) {
+			UserModel tempUser = userRepository.findByUsername(authentication.getName());
+			tempUser.setPassword(bcryptEncoder.encode(password));
+			System.out.println("new password was encrypted");
+			userRepository.save(tempUser);
 	}
 
 	/*

@@ -23,4 +23,5 @@ public interface UserModelRepository extends JpaRepository<UserModel, Integer> {
 	UserModel findById(long id);
 
 	void deleteById(long id);
+
 }

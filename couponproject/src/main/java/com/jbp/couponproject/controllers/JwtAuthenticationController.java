@@ -67,16 +67,16 @@ public class JwtAuthenticationController {
 		System.out.println("WORKZ");
 		return ResponseEntity.ok(new JwtResponse(token, role));
 	}
+
 	/*
 	 * The post request for the registration, takes a user infetrface that includes
 	 * Username, Password and the Role.
 	 */
 	@PostMapping(value = "/register")
 	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
-		System.out.println("New account has been registerd" + user.toString());
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
-
+	
 	private void authenticate(String username, String password) throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

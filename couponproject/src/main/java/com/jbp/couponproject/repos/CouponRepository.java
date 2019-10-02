@@ -17,5 +17,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	List<Coupon> findAllByEndDateBefore(Date date);
 
+	boolean existsById(long id);
+
 
 }

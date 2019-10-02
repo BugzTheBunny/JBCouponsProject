@@ -67,7 +67,6 @@ public class AdminController {
 
 	@GetMapping("/profit")
 	public Profit getProfit(Authentication authentication) {
-		
 		if (userRepository.findByUsername(authentication.getName()).getRoles() == Roles.ADMIN) {
 			return profitRepo.findByWalletID(451);
 		} else {
@@ -87,10 +86,7 @@ public class AdminController {
 			UserModel tempUser = userRepository.findById(userModel.getId());
 			tempUser.setName(userModel.getName());
 			userRepository.save(tempUser);
-		} else {
-			System.out.println("Not allowed to change other user insssfo");
 		}
-
 	}
 
 }

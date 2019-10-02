@@ -85,20 +85,21 @@ public class CouponController {
 
 	@PostMapping(path = "", consumes = { "application/json" })
 	public void create(Authentication authentication, @RequestBody Coupon coupon) {
-		System.out.println("Create was called");
-		if (coupon != null) {
+		if (coupon != null && couponRepository.existsById(coupon.getId()) == false) {
 			// updating UserModel_Coupon
 			UserModel temp = userRepository.findByUsername(authentication.getName());
 			couponRepository.save(coupon);
 			temp.createCoupon(coupon);
 			userRepository.save(temp);
+		}else {
+			/*
+			 * need to implement an option to not allow adding a coupon with a same ID.
+			 */
 		}
 	}
 
 	@PostMapping(path = "/buy", consumes = { "application/json" })
 	public void buy(Authentication authentication, @RequestBody Coupon coupon) {
-		System.out.println("Purchuse was called by " + authentication.getName()
-				+ userRepository.findByUsername(authentication.getName()).getRoles().toString());
 		if (userRepository.findByUsername(authentication.getName()).getRoles().toString().equals("CUSTOMER")
 				&& coupon.getAmount() >= 1) {
 			UserModel temp = userRepository.findByUsername(authentication.getName());
@@ -111,8 +112,8 @@ public class CouponController {
 			 * Below is the profit managing
 			 */
 			Profit profit = profitRepo.findByWalletID(451);
-			profit.setIncome(profit.getIncome()+coupon.getPrice());
-			profit.setTransactions(profit.getTransactions()+1);
+			profit.setIncome(profit.getIncome() + coupon.getPrice());
+			profit.setTransactions(profit.getTransactions() + 1);
 			profitRepo.save(profit);
 			System.out.println("Buy coupon worked");
 		}

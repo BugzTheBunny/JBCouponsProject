@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jbp.couponproject.enums.Roles;
 import com.jbp.couponproject.models.Coupon;
 import com.jbp.couponproject.models.Profit;
 import com.jbp.couponproject.models.UserModel;
@@ -68,9 +69,9 @@ public class CouponController {
 	public void delete(Authentication authentication, @PathVariable("id") long id) {
 		System.out.println("Delete was called");
 		// Will work only for Admins or Companies
-		if (userRepository.findByUsername(authentication.getName()).getRoles().equals("MANAGER")
-				|| userRepository.findByUsername(authentication.getName()).getRoles().equals("ADMIN")) {
-			if (couponRepository.findById(id) != null) {
+		if (userRepository.findByUsername(authentication.getName()).getRoles() == Roles.MANAGER
+				|| userRepository.findByUsername(authentication.getName()).getRoles() == Roles.ADMIN) {
+			if (couponRepository.existsById(id)) {
 				UserModel temp = userRepository.findByUsername(authentication.getName());
 				temp.removeCoupon(couponRepository.findById(id));
 				couponRepository.deleteById(id);
@@ -80,7 +81,8 @@ public class CouponController {
 	}
 
 	/*
-	 * @ creates a coupon for the current logged user (Only for Admins / Managers)
+	 * @ creates a new coupon that was posted, Only if you are logged as a company
+	 * and if the coupon dosen't exist already
 	 */
 
 	@PostMapping(path = "", consumes = { "application/json" })
@@ -91,7 +93,7 @@ public class CouponController {
 			couponRepository.save(coupon);
 			temp.createCoupon(coupon);
 			userRepository.save(temp);
-		}else {
+		} else {
 			/*
 			 * need to implement an option to not allow adding a coupon with a same ID.
 			 */
@@ -100,7 +102,7 @@ public class CouponController {
 
 	@PostMapping(path = "/buy", consumes = { "application/json" })
 	public void buy(Authentication authentication, @RequestBody Coupon coupon) {
-		if (userRepository.findByUsername(authentication.getName()).getRoles().toString().equals("CUSTOMER")
+		if (userRepository.findByUsername(authentication.getName()).getRoles() == Roles.CUSTOMER
 				&& coupon.getAmount() >= 1) {
 			UserModel temp = userRepository.findByUsername(authentication.getName());
 			Coupon tempc = coupon;
@@ -115,17 +117,16 @@ public class CouponController {
 			profit.setIncome(profit.getIncome() + coupon.getPrice());
 			profit.setTransactions(profit.getTransactions() + 1);
 			profitRepo.save(profit);
-			System.out.println("Buy coupon worked");
+		} else {
+			// need to implement exception
 		}
 	}
 
 	@PutMapping(path = "/update", consumes = { "application/json" })
 	public void update(Authentication authentication, @RequestBody Coupon coupon) {
-		if (userRepository.findByUsername(authentication.getName()).getRoles().toString().equals("ADMIN")
-				|| userRepository.findByUsername(authentication.getName()).getRoles().toString().equals("MANAGER")) {
-			Coupon tempc = coupon;
-			couponRepository.save(tempc);
-			System.out.println("Update coupon worked");
+		if (userRepository.findByUsername(authentication.getName()).getRoles() == Roles.ADMIN
+				|| userRepository.findByUsername(authentication.getName()).getRoles() == Roles.ADMIN) {
+			couponRepository.save(coupon);
 		}
 	}
 

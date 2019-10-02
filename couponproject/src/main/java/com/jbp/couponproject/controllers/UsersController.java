@@ -51,7 +51,7 @@ public class UsersController {
 	}
 
 	/*
-	 * @Returns the current login user information.
+	 * @Returns the current login user information, uses the currently logged in username.
 	 */
 	@GetMapping("/info")
 	public UserModel myInfo(Authentication authentication) {
